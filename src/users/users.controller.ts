@@ -5,10 +5,9 @@ import {
   Get,
   HttpCode,
   Post,
-  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { AuthGuard } from 'src/auth/auth.guard';
+import { Auth } from 'src/auth/auth.decorator';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { User } from './user.decorator';
 import { User as UserEntity } from './user.entity';
@@ -26,7 +25,7 @@ export class UsersController {
   }
 
   @Get('me')
-  @UseGuards(AuthGuard)
+  @Auth()
   me(@User() user: UserEntity) {
     return { user };
   }

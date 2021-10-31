@@ -25,4 +25,9 @@ export class AuthService {
   getToken(user: User): string {
     return this.jwtService.sign({ name: user.name, id: user.id });
   }
+
+  getUserByToken(token: string) {
+    const { id } = this.jwtService.verify(token);
+    return this.usersService.findById(id);
+  }
 }

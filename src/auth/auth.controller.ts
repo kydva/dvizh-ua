@@ -1,7 +1,7 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { User } from 'src/users/user.decorator';
 import { User as UserEntity } from 'src/users/user.entity';
-import { AuthGuard } from './auth.guard';
+import { Auth } from './auth.decorator';
 import { AuthService } from './auth.service';
 import { UserLoginDTO } from './dto/login.dto';
 
@@ -15,7 +15,7 @@ export class AuthController {
   }
 
   @Get('token')
-  @UseGuards(AuthGuard)
+  @Auth()
   async getToken(@User() user: UserEntity) {
     return { access_token: this.authService.getToken(user) };
   }
