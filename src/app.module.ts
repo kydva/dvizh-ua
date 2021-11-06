@@ -22,6 +22,7 @@ import { StorageModule } from './storage/storage.module';
     }),
     UsersModule,
     AuthModule,
+    EventsModule,
     CategoriesModule,
     StorageModule,
   ],

@@ -22,4 +22,8 @@ export class User {
 
   @Column({ type: 'varchar', array: true, default: [] })
   roles: Role[];
+
+  isAdmin(): boolean {
+    return this.roles.includes(Role.Admin);
+  }
 }
