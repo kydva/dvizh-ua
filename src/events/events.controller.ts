@@ -8,6 +8,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
@@ -17,14 +18,15 @@ import { User } from 'src/users/user.decorator';
 import { Role, User as UserEntity } from 'src/users/user.entity';
 import { CreateEventDto } from './dto/create-event.dto';
 import { EventsService } from './events.service';
+import { ListEventsDto } from './dto/list-events.dto';
 
 @Controller('events')
 export class EventsController {
   constructor(private eventsService: EventsService) {}
 
   @Get()
-  find() {
-    return this.eventsService.find();
+  async find(@Query() query: ListEventsDto) {
+    return await this.eventsService.find(query);
   }
 
   @Get(':id')
@@ -59,6 +61,7 @@ export class EventsController {
     @UploadedFile() picture: Express.Multer.File,
     @User() author: UserEntity,
   ) {
-    return this.eventsService.create(event, picture, author);
+    const result = await this.eventsService.create(event, picture, author);
+    return { event: result };
   }
 }
