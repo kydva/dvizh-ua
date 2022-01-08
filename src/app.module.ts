@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { EventsModule } from './events/events.module';
 import { CategoriesModule } from './categories/categories.module';
 import { StorageModule } from './storage/storage.module';
+import { CitiesModule } from './cities/cities.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { StorageModule } from './storage/storage.module';
     EventsModule,
     CategoriesModule,
     StorageModule,
+    CitiesModule,
   ],
 })
 export class AppModule {}

@@ -1,23 +1,22 @@
-import { Injectable } from '@nestjs/common';
+import { Body, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Category } from './category.entity';
-import { CityDto } from './dto/category.dto';
+import { City } from './city.entity';
 
 @Injectable()
-export class CategoriesService {
+export class CitiesService {
   constructor(
-    @InjectRepository(Category)
-    private categoryRepository: Repository<Category>,
+    @InjectRepository(City)
+    private cityRepository: Repository<City>,
   ) {}
 
-  create(dto: CityDto): Promise<Category> {
-    const category = new Category();
-    category.name = dto.name;
-    return this.categoryRepository.save(category);
+  create(name: string): Promise<City> {
+    const city = new City();
+    city.name = name;
+    return this.cityRepository.save(city);
   }
 
-  all(): Promise<Category[]> {
-    return this.categoryRepository.find();
+  all(): Promise<City[]> {
+    return this.cityRepository.find();
   }
 }
