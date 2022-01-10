@@ -1,4 +1,4 @@
-import { Min, Max } from 'class-validator';
+import { Min, Max, IsDateString, IsOptional } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class ListEventsDto {
@@ -14,6 +14,14 @@ export class ListEventsDto {
   category?: number;
 
   search?: string;
+
+  @IsOptional()
+  @IsDateString()
+  start?: Date;
+
+  @IsOptional()
+  @IsDateString()
+  end?: Date;
 
   @Type(() => Boolean)
   moderation?: boolean;

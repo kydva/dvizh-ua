@@ -20,10 +20,16 @@ export class EventsService {
       .skip(query.skip)
       .take(query.take)
       .where('approved = :approved', { approved: !query.moderation })
-      .andWhere('event.end > :now', { now: new Date() })
+      .andWhere('event.start > :start', { start: query.start || new Date() })
       .orderBy('event.start', 'ASC')
       .leftJoinAndSelect('event.category', 'category')
       .leftJoinAndSelect('event.city', 'city');
+
+    if (query.end) {
+      qb = qb.andWhere('event.end < :end', {
+        end: query.end,
+      });
+    }
 
     if (query.search) {
       qb = qb.andWhere(
