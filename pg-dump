@@ -1,0 +1,355 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 13.4
+-- Dumped by pg_dump version 13.4
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: category; Type: TABLE; Schema: public; Owner: lynx
+--
+
+CREATE TABLE public.category (
+    id integer NOT NULL,
+    name character varying NOT NULL
+);
+
+
+ALTER TABLE public.category OWNER TO lynx;
+
+--
+-- Name: category_id_seq; Type: SEQUENCE; Schema: public; Owner: lynx
+--
+
+CREATE SEQUENCE public.category_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.category_id_seq OWNER TO lynx;
+
+--
+-- Name: category_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: lynx
+--
+
+ALTER SEQUENCE public.category_id_seq OWNED BY public.category.id;
+
+
+--
+-- Name: city; Type: TABLE; Schema: public; Owner: lynx
+--
+
+CREATE TABLE public.city (
+    id integer NOT NULL,
+    name character varying NOT NULL
+);
+
+
+ALTER TABLE public.city OWNER TO lynx;
+
+--
+-- Name: city_id_seq; Type: SEQUENCE; Schema: public; Owner: lynx
+--
+
+CREATE SEQUENCE public.city_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.city_id_seq OWNER TO lynx;
+
+--
+-- Name: city_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: lynx
+--
+
+ALTER SEQUENCE public.city_id_seq OWNED BY public.city.id;
+
+
+--
+-- Name: event; Type: TABLE; Schema: public; Owner: lynx
+--
+
+CREATE TABLE public.event (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    picture character varying NOT NULL,
+    price character varying,
+    description text NOT NULL,
+    start timestamp without time zone NOT NULL,
+    "end" timestamp without time zone NOT NULL,
+    "categoryId" integer,
+    "authorId" integer,
+    approved boolean DEFAULT false NOT NULL,
+    location character varying NOT NULL,
+    "cityId" integer
+);
+
+
+ALTER TABLE public.event OWNER TO lynx;
+
+--
+-- Name: event_id_seq; Type: SEQUENCE; Schema: public; Owner: lynx
+--
+
+CREATE SEQUENCE public.event_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.event_id_seq OWNER TO lynx;
+
+--
+-- Name: event_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: lynx
+--
+
+ALTER SEQUENCE public.event_id_seq OWNED BY public.event.id;
+
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: lynx
+--
+
+CREATE TABLE public.users (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    password character varying NOT NULL,
+    avatar character varying,
+    roles character varying[] DEFAULT '{}'::character varying[] NOT NULL
+);
+
+
+ALTER TABLE public.users OWNER TO lynx;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: lynx
+--
+
+CREATE SEQUENCE public.users_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_id_seq OWNER TO lynx;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: lynx
+--
+
+ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
+
+
+--
+-- Name: category id; Type: DEFAULT; Schema: public; Owner: lynx
+--
+
+ALTER TABLE ONLY public.category ALTER COLUMN id SET DEFAULT nextval('public.category_id_seq'::regclass);
+
+
+--
+-- Name: city id; Type: DEFAULT; Schema: public; Owner: lynx
+--
+
+ALTER TABLE ONLY public.city ALTER COLUMN id SET DEFAULT nextval('public.city_id_seq'::regclass);
+
+
+--
+-- Name: event id; Type: DEFAULT; Schema: public; Owner: lynx
+--
+
+ALTER TABLE ONLY public.event ALTER COLUMN id SET DEFAULT nextval('public.event_id_seq'::regclass);
+
+
+--
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: lynx
+--
+
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
+
+
+--
+-- Data for Name: category; Type: TABLE DATA; Schema: public; Owner: lynx
+--
+
+COPY public.category (id, name) FROM stdin;
+6	Концерти
+7	Майстер-класи
+8	Семінари
+9	Вечірки
+\.
+
+
+--
+-- Data for Name: city; Type: TABLE DATA; Schema: public; Owner: lynx
+--
+
+COPY public.city (id, name) FROM stdin;
+1	Київ
+2	Львів
+3	Харків
+4	Дніпро
+5	Донецьк
+6	Жмеринка
+7	Севастополь
+\.
+
+
+--
+-- Data for Name: event; Type: TABLE DATA; Schema: public; Owner: lynx
+--
+
+COPY public.event (id, name, picture, price, description, start, "end", "categoryId", "authorId", approved, location, "cityId") FROM stdin;
+24	Фестиваль російського репу	events/1b2aaaf4514b7d5c4479b2cfc57c383e	200 гримень	Вечір російського репу на аеропортуууууууу	2022-03-10 02:02:00	2022-03-17 03:03:00	6	1	f	Аеропорт 	5
+25	Виставка мистецтва чишо	events/818bf1568600fa6677730b0547e5f02a	300 гримен	Виставка мистецтва чишо, поки шо невідомо	2022-01-04 01:02:00	2022-11-16 03:02:00	9	1	f	Поки шо невідомо	2
+20	П'єм пиво слухаєм вініл на берегу мальовничого озера	events/9269ab7defdac8b9b939dc56508b1a3a	88 грн	 П'єм пиво, слухаєм вінілові платівки, мажемось червоною глиною на берегу мальовничого озера "Кірпічка", що знаходиться поблизу цегельного заводу імені В.І. Леніна 	2022-02-08 02:04:00	2022-02-09 03:02:00	9	1	t	Озеро "Кірпічка" ( кірпічний завод ім. Леніна )	2
+22	Семінар "Як не зійти з розуму якщо ти живеш в Україні" від Дмитра Карпачова	events/90d65200e808673de0e0e1f1d693916d	1000 гримень	Сам Дмитро Карпачов спуститься з небес і прилетить на крилах до Львову щоб розказати холопам секрети своєї успішної жизні всього за тисячу гримень з людини, поспішайте!	2022-02-17 17:00:00	2022-02-17 20:00:00	8	1	t	Актовий зал бурси №57	2
+23	Майстер-клас по приготуванню морського окуня в собствєнному жирі	events/c7097dcf6634c2908412146ba3af5932	890 гримень	Кубинський кулінар Санчо Лопес, легендарний особистий кухар Фіделя Кастро, приїхав до України щоб обмінятись кулінарними традиціями та розкрити нам секрети улюбленої страви славетного диктатора - морського окуня в собствєнному жиру. 	2022-02-23 00:00:00	2022-02-28 00:00:00	7	1	t	ВДНХ	1
+\.
+
+
+--
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: lynx
+--
+
+COPY public.users (id, name, password, avatar, roles) FROM stdin;
+1	vladyslav	$2b$10$6Wwc.rGnHSA8YtugcPms/.ZvyH9zk.udXPuRYSh9Mme2VKxLYZ.Re	\N	{admin}
+2	vladyslava	$2b$10$SyCVMrXM7gXkIo3CY8MsLuZ/nKqo89wo2ufF0HcNKFRboDrfaVJmO	\N	{}
+3	asdasga	$2b$10$5TfyuQS7n9hWfuNbrjv9cOlMVnaoMFTciL5zf3i.jcZ1riMDrEVS6	\N	{}
+4	muhasa	$2b$10$bS0EemSauS5R/Q7aB2TF5.eONtyYfyi0NEAtscC.PlN0FpYLPkXpq	\N	{}
+\.
+
+
+--
+-- Name: category_id_seq; Type: SEQUENCE SET; Schema: public; Owner: lynx
+--
+
+SELECT pg_catalog.setval('public.category_id_seq', 9, true);
+
+
+--
+-- Name: city_id_seq; Type: SEQUENCE SET; Schema: public; Owner: lynx
+--
+
+SELECT pg_catalog.setval('public.city_id_seq', 7, true);
+
+
+--
+-- Name: event_id_seq; Type: SEQUENCE SET; Schema: public; Owner: lynx
+--
+
+SELECT pg_catalog.setval('public.event_id_seq', 25, true);
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: lynx
+--
+
+SELECT pg_catalog.setval('public.users_id_seq', 4, true);
+
+
+--
+-- Name: event PK_30c2f3bbaf6d34a55f8ae6e4614; Type: CONSTRAINT; Schema: public; Owner: lynx
+--
+
+ALTER TABLE ONLY public.event
+    ADD CONSTRAINT "PK_30c2f3bbaf6d34a55f8ae6e4614" PRIMARY KEY (id);
+
+
+--
+-- Name: category PK_9c4e4a89e3674fc9f382d733f03; Type: CONSTRAINT; Schema: public; Owner: lynx
+--
+
+ALTER TABLE ONLY public.category
+    ADD CONSTRAINT "PK_9c4e4a89e3674fc9f382d733f03" PRIMARY KEY (id);
+
+
+--
+-- Name: users PK_a3ffb1c0c8416b9fc6f907b7433; Type: CONSTRAINT; Schema: public; Owner: lynx
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT "PK_a3ffb1c0c8416b9fc6f907b7433" PRIMARY KEY (id);
+
+
+--
+-- Name: city PK_b222f51ce26f7e5ca86944a6739; Type: CONSTRAINT; Schema: public; Owner: lynx
+--
+
+ALTER TABLE ONLY public.city
+    ADD CONSTRAINT "PK_b222f51ce26f7e5ca86944a6739" PRIMARY KEY (id);
+
+
+--
+-- Name: category UQ_23c05c292c439d77b0de816b500; Type: CONSTRAINT; Schema: public; Owner: lynx
+--
+
+ALTER TABLE ONLY public.category
+    ADD CONSTRAINT "UQ_23c05c292c439d77b0de816b500" UNIQUE (name);
+
+
+--
+-- Name: city UQ_f8c0858628830a35f19efdc0ecf; Type: CONSTRAINT; Schema: public; Owner: lynx
+--
+
+ALTER TABLE ONLY public.city
+    ADD CONSTRAINT "UQ_f8c0858628830a35f19efdc0ecf" UNIQUE (name);
+
+
+--
+-- Name: event FK_523996137e0ed701b0e683d8693; Type: FK CONSTRAINT; Schema: public; Owner: lynx
+--
+
+ALTER TABLE ONLY public.event
+    ADD CONSTRAINT "FK_523996137e0ed701b0e683d8693" FOREIGN KEY ("cityId") REFERENCES public.city(id);
+
+
+--
+-- Name: event FK_c180b5b1724f7dd9f6d50915c79; Type: FK CONSTRAINT; Schema: public; Owner: lynx
+--
+
+ALTER TABLE ONLY public.event
+    ADD CONSTRAINT "FK_c180b5b1724f7dd9f6d50915c79" FOREIGN KEY ("authorId") REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: event FK_d44e52c4ca04619ef9b61a11982; Type: FK CONSTRAINT; Schema: public; Owner: lynx
+--
+
+ALTER TABLE ONLY public.event
+    ADD CONSTRAINT "FK_d44e52c4ca04619ef9b61a11982" FOREIGN KEY ("categoryId") REFERENCES public.category(id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
